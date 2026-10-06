@@ -1,0 +1,12 @@
+There are 2 arrays which denote departing and returning flights with the respective indexes being time and the values of the array being the cost it takes for the flight. Return the minimum cost for a round trip provided the return flight can only be taken at a time post departing flight time (i.e if departing at time i, one can catch a returning flight only from time (i+1) onwards). For eg departing = [1,2,3,4] and returning = [4,3,2,1], the minimum cost for round trip will be 2 i.e departing[0] + returning[3]. Solve this is O(n) time
+Explain the problem and solution
+
+so we start from j = 1 because j 0 means is the starting comparision we are going to do
+
+mincost = int max value -- bacause we need start from the max value 
+min departing is starting at j 0 and we need to keep it for comparision to find the cheapest start date
+
+so j = 1 to j < n
+
+mincost = Math.Min (mincost, mindepart + returning[j]);
+mindepart = math.min(mindepart, departing[j]);
