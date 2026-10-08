@@ -1,0 +1,70 @@
+Given a mouse in a grid, determine if the mouse can reach the cheese. The only way to manipulate the mouse is via two functions, move() and isCheese(). The move() function returns true and moves the mouse if the move is possible, and returns false otherwise. The isCheese() function returns true if the mouse is currently at the cheese and false otherwise. You only have one instantiation of the mouse class. You cannot access the graph outside of the methods provided. The graph may have walls and isn’t guaranteed to be any particular shape. Exactly one cheese exists, and it’s always possible to reach it.
+
+Input:
+
+Grid with mouse at (0,0) and cheese at (2,2), no walls
+Output:
+
+true
+
+Explanation: The mouse can reach the cheese by moving right twice and down twice (or any valid path)
+
+Constraints:
+
+The grid size is unknown and cannot be accessed directly
+The mouse's starting position is unknown
+The cheese's position is unknown
+The grid may contain walls that block movement
+Exactly one cheese exists in the grid
+The cheese is always reachable from the starting position
+Can only interact via move() and isCheese() methods
+
+
+
+public interface IMouse
+{
+    public bool move(string direction);
+    public bool isCheese();
+}
+public class mousecheese
+{
+    public IMouse mouse;
+    public mousecheese(IMouse mouse)
+    {
+        this.mouse = mouse;
+    }
+
+    private string[] directions = { "up", "down", "left", "right" };
+    private string[] opposites = { "down", "up", "right", "left" };
+    private int[] drow = { -1, 1, 0, 0 };
+    private int[] dcol = { 0, 0, -1, 1 };
+
+    private bool findCheese()
+    {
+        HashSet<(int, int)> visited = new HashSet<(int, int)>();
+        visited.Add((0, 0));
+        return dfs(0, 0, visited);
+    }
+
+    private bool dfs(int row, int col, HashSet<(int, int)> visited)
+    {
+        if (mouse.isCheese()) return true;
+
+        for (int i = 0; i < 4; i++)
+        {
+            int newr = row + drow[i];
+            int newc = col + dcol[i];
+
+            if (visited.Contains((newr, newc))) continue;
+            if (!mouse.move(directions[i])) continue;
+            visited.Add((newr, newc));
+
+            if (dfs(newr, newc, visited)) return true;
+
+            mouse.move(opposites[i]);
+
+        }
+
+        return false;
+    }
+}
